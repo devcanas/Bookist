@@ -45,12 +45,12 @@ class NewBookingSection: UIView {
     }
     
     private func setupActions() {
-        individualBookingBtn.addTarget(self, action: #selector(handleTap(_:)), for: .touchUpInside)
-        groupBookingBtn.addTarget(self, action: #selector(handleTap(_:)), for: .touchUpInside)
+        individualBookingBtn.addTarget(self, action: #selector(handleButtonTap), for: .touchUpInside)
+        groupBookingBtn.addTarget(self, action: #selector(handleButtonTap), for: .touchUpInside)
     }
     
     @objc
-    private func handleTap(_ sender: UIButton) {
+    private func handleButtonTap(_ sender: BookingButton) {
         switch sender {
         case individualBookingBtn:
             delegate?.didTapIndividualBookingButton()

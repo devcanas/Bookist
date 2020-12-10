@@ -6,6 +6,9 @@ struct Constants {
         static let group = "Group"
         static let newBooking = "New Booking"
         static let upNext = "Up Next"
+        
+        static let individualBooking = "Individual Booking"
+        static let groupBooking = "Group Booking"
     }
     
     struct Color {
@@ -13,7 +16,7 @@ struct Constants {
     }
     
     struct Image {
-        static let individual = UIImage(systemName: "person.fill")
-        static let group = UIImage(systemName: "person.2.fill")
+        static let individual = UIImage(systemName: "person.fill")!
+        static let group = UIImage(systemName: "person.2.fill")!
     }
 }

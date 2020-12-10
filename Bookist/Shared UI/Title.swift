@@ -20,6 +20,7 @@ class Title: UIView, Component {
     }
 
     enum Configuration {
+        case bigTitle
         case plain(String)
         case withImage(String, UIImage)
     }
@@ -32,6 +33,8 @@ class Title: UIView, Component {
         case let .withImage(titleLabelText, image):
             imageView.image = image
             titleLabel.text = titleLabelText
+        case .bigTitle:
+            titleLabel.font = .boldSystemFont(ofSize: 28)
         }
         configureSubviews()
     }

@@ -13,6 +13,13 @@ class HomeViewController: UIViewController {
         
         viewModel.fetchBookingData()
     }
+    
+    private func presentBookingFlow(for configuration: BookingView.Configuration) {
+        let bookingVC = BookingViewController(delegate: self)
+        bookingVC.modalPresentationStyle = .formSheet
+        bookingVC.component.render(with: configuration)
+        present(bookingVC, animated: true, completion: nil)
+    }
 }
 
 extension HomeViewController: HomeViewModelDelegate {
@@ -45,10 +52,14 @@ extension HomeViewController: HomeViewDelegate {
     }
     
     func didTapIndividualBookingButton() {
-        
+        presentBookingFlow(for: .individual)
     }
     
     func didTapGroupBookingButton() {
-        
+        presentBookingFlow(for: .group)
     }
+}
+
+extension HomeViewController: BookingViewControllerDelegate {
+    
 }

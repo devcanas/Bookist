@@ -6,6 +6,11 @@ import UIKit
 protocol Component {
     associatedtype Configuration
     func render(with configuration: Configuration)
+    func render(with configurations: [Configuration])
+}
+
+extension Component {
+    func render(with configurations: [Configuration]) { }
 }
 
 func create<T:UIView>(_ completion: @escaping (T) -> Void) -> T {

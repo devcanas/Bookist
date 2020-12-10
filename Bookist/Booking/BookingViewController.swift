@@ -6,7 +6,7 @@ protocol BookingViewControllerDelegate: class {
 
 class BookingViewController: UIViewController {
 
-    private let component: BookingView = create { $0.render(with: .individual) }
+    private(set) var component: BookingView = create { $0.render(with: .initial) }
     
     weak var delegate: BookingViewControllerDelegate?
     
@@ -25,6 +25,7 @@ class BookingViewController: UIViewController {
     }
     
     private func setup() {
-        
+        view.addSubview(component)
+        component.pinTo(view)
     }
 }

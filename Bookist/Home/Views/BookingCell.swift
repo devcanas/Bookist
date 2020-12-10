@@ -24,20 +24,31 @@ class BookingCell: UITableViewCell, Component {
     
     func render(with configuration: Configuration) {
         if case let .item(booking) = configuration {
-            roomNameLabel.text = booking.room.name
-            campusNameLabel.text = booking.room.campus.rawValue
-            
-            dayLabel.text = booking.dateInfo.day
-            startTimeLabel.text = booking.dateInfo.startTime
-            endTimeLabel.text = booking.dateInfo.endTime
-            
-            shuttleStackView.isHidden = booking.shuttleBooking == nil
-            
-            let individualSessionImage = Constants.Image.individual
-            let groupSessionImage = Constants.Image.group
-            let sessionTypeImage = booking.bookingType == .individual ? individualSessionImage : groupSessionImage
-            sessionTypeImageView.image = sessionTypeImage
+            setup(with: booking)
         }
+    }
+    
+    private func setup(with booking: BookingModel) {
+        setupLabels(with: booking)
+        setupImages(with: booking.bookingType)
+    }
+    
+    private func setupLabels(with booking: BookingModel) {
+        roomNameLabel.text = booking.room.name
+        campusNameLabel.text = booking.room.campus.rawValue
+        
+        dayLabel.text = booking.dateInfo.day
+        startTimeLabel.text = booking.dateInfo.startTime
+        endTimeLabel.text = booking.dateInfo.endTime
+        
+        shuttleStackView.isHidden = booking.shuttleBooking == nil
+    }
+    
+    private func setupImages(with bookingType: BookingType) {
+        let individualSessionImage = Constants.Image.individual
+        let groupSessionImage = Constants.Image.group
+        let sessionTypeImage = bookingType == .individual ? individualSessionImage : groupSessionImage
+        sessionTypeImageView.image = sessionTypeImage
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
