@@ -8,7 +8,7 @@ extension Date {
             return "Tomorrow"
         } else {
             let formatter = DateFormatter()
-            formatter.dateFormat = "MMM dd"
+            formatter.dateFormat = "MMM d"
             let string = formatter.string(from: self)
             return string
         }

@@ -18,5 +18,6 @@ struct Constants {
     struct Image {
         static let individual = UIImage(systemName: "person.fill")!
         static let group = UIImage(systemName: "person.2.fill")!
+        static let arrowLeft = UIImage(systemName: "arrow.left.circle")!
     }
 }

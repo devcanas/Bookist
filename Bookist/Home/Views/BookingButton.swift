@@ -1,10 +1,3 @@
-//
-//  BookingButton.swift
-//  Bookist
-//
-//  Created by Vicente Canas on 05/12/2020.
-//
-
 import UIKit
 
 class BookingButton: Button {

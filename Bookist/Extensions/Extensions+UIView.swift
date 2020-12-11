@@ -1,7 +1,4 @@
-
 import UIKit
-
-/// Every view should conform to this in order to make this app the most configurable possible
 
 protocol Component {
     associatedtype Configuration
@@ -13,7 +10,14 @@ extension Component {
     func render(with configurations: [Configuration]) { }
 }
 
-func create<T:UIView>(_ completion: @escaping (T) -> Void) -> T {
+func createPadded<T: UIView>(_ completion: @escaping (T) -> Void) -> Padded<T> {
+    let view: T = create { _ in }
+    let paddedView = Padded<T>(view)
+    completion(view)
+    return paddedView
+}
+
+func create<T: UIView>(_ completion: @escaping (T) -> Void) -> T {
     let view: T = T()
     view.translatesAutoresizingMaskIntoConstraints = false
     completion(view)

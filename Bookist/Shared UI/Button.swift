@@ -12,7 +12,6 @@ class Button: UIButton, Component {
     }
     
     func render(with configuration: Configuration) {
-        
         switch configuration {
         case let .text(text):
             buttonLabel.text = text
@@ -28,6 +27,7 @@ class Button: UIButton, Component {
         case .shadowed:
             setupShadow()
         }
+        setupStackViewPadding()
     }
     
     func render(with configurations: [Configuration]) {
@@ -36,9 +36,8 @@ class Button: UIButton, Component {
     
     private let stackView: UIStackView = create {
         $0.axis = .vertical
-        $0.alignment = .fill
         $0.spacing = 5
-        $0.layoutMargins = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
+        $0.alignment = .center
         $0.isLayoutMarginsRelativeArrangement = true
         $0.heightAnchor.constraint(equalToConstant: 110).isActive = true
         $0.isUserInteractionEnabled = false
@@ -53,7 +52,6 @@ class Button: UIButton, Component {
     
     private let buttonLabel: UILabel = create {
         $0.font = .boldSystemFont(ofSize: 17)
-        $0.textAlignment = .center
         $0.textColor = Constants.Color.theme
         $0.isUserInteractionEnabled = false
         $0.isHidden = true
@@ -96,5 +94,12 @@ class Button: UIButton, Component {
         stackView.pinTo(self)
         stackView.addArrangedSubview(buttonImageView)
         stackView.addArrangedSubview(buttonLabel)
+        buttonImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5).isActive = true
+    }
+    
+    // hack. Get rid of this
+    private func setupStackViewPadding() {
+        let padding: CGFloat = buttonImageView.isHidden || buttonLabel.isHidden ? 0 : 20
+        stackView.layoutMargins = UIEdgeInsets(top: padding, left: 0, bottom: padding, right: 0)
     }
 }
