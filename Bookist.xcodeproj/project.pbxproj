@@ -13,6 +13,16 @@
 		5C29FF2B257FF58E0017C113 /* BookingMockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C29FF2A257FF58E0017C113 /* BookingMockData.swift */; };
 		5C29FF30258006DD0017C113 /* Extensions+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C29FF2F258006DD0017C113 /* Extensions+Date.swift */; };
 		5C29FF352580175B0017C113 /* BookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C29FF342580175B0017C113 /* BookingViewController.swift */; };
+		5C49E70C2583D4D400B8505E /* BookingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C49E70B2583D4D400B8505E /* BookingStep.swift */; };
+		5C49E70F2583D5F200B8505E /* BookingStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C49E70E2583D5F200B8505E /* BookingStepView.swift */; };
+		5C49E7122583D75C00B8505E /* LocationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C49E7112583D75C00B8505E /* LocationStep.swift */; };
+		5C49E7152583D88900B8505E /* DateTimeStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C49E7142583D88900B8505E /* DateTimeStep.swift */; };
+		5C49E7182583D8AF00B8505E /* RoomChoiceStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C49E7172583D8AF00B8505E /* RoomChoiceStep.swift */; };
+		5C49E71B2583D8BE00B8505E /* ConfirmationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C49E71A2583D8BE00B8505E /* ConfirmationStep.swift */; };
+		5C49E71E2583D8D000B8505E /* GroupShareStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C49E71D2583D8D000B8505E /* GroupShareStep.swift */; };
+		5C49E7212583FDBE00B8505E /* SmallButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C49E7202583FDBE00B8505E /* SmallButton.swift */; };
+		5C49E72625843FA400B8505E /* TimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C49E72525843FA400B8505E /* TimePicker.swift */; };
+		5C49E72925843FF400B8505E /* TimePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C49E72825843FF400B8505E /* TimePicker.xib */; };
 		5C4A6229257C0DEE00BD485F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A6228257C0DEE00BD485F /* AppDelegate.swift */; };
 		5C4A622B257C0DEE00BD485F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A622A257C0DEE00BD485F /* SceneDelegate.swift */; };
 		5C4A6233257C0DEE00BD485F /* Bookist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A6231257C0DEE00BD485F /* Bookist.xcdatamodeld */; };
@@ -29,8 +39,9 @@
 		5C7FC19F2582A52600E98F07 /* BookingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7FC19E2582A52600E98F07 /* BookingViewModel.swift */; };
 		5C7FC1A22582A67400E98F07 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7FC1A12582A67400E98F07 /* Button.swift */; };
 		5C7FC1A52582BC2400E98F07 /* Padded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7FC1A42582BC2400E98F07 /* Padded.swift */; };
-		5C7FC1A82582C8FC00E98F07 /* BookingCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7FC1A72582C8FC00E98F07 /* BookingCollectionViewLayout.swift */; };
 		5C7FC1AB2582D7BF00E98F07 /* BookingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7FC1AA2582D7BF00E98F07 /* BookingViewCell.swift */; };
+		5C7FC1AE2583977D00E98F07 /* BookingJourneyMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7FC1AD2583977D00E98F07 /* BookingJourneyMock.swift */; };
+		5C7FC1B12583980200E98F07 /* BookingJourney.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7FC1B02583980200E98F07 /* BookingJourney.swift */; };
 		5C86139A25801A1D008124DB /* BookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C86139925801A1D008124DB /* BookingView.swift */; };
 		5C86139E25802C72008124DB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C86139D25802C72008124DB /* Constants.swift */; };
 /* End PBXBuildFile section */
@@ -42,6 +53,16 @@
 		5C29FF2A257FF58E0017C113 /* BookingMockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingMockData.swift; sourceTree = "<group>"; };
 		5C29FF2F258006DD0017C113 /* Extensions+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Date.swift"; sourceTree = "<group>"; };
 		5C29FF342580175B0017C113 /* BookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewController.swift; sourceTree = "<group>"; };
+		5C49E70B2583D4D400B8505E /* BookingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingStep.swift; sourceTree = "<group>"; };
+		5C49E70E2583D5F200B8505E /* BookingStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingStepView.swift; sourceTree = "<group>"; };
+		5C49E7112583D75C00B8505E /* LocationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationStep.swift; sourceTree = "<group>"; };
+		5C49E7142583D88900B8505E /* DateTimeStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeStep.swift; sourceTree = "<group>"; };
+		5C49E7172583D8AF00B8505E /* RoomChoiceStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomChoiceStep.swift; sourceTree = "<group>"; };
+		5C49E71A2583D8BE00B8505E /* ConfirmationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationStep.swift; sourceTree = "<group>"; };
+		5C49E71D2583D8D000B8505E /* GroupShareStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupShareStep.swift; sourceTree = "<group>"; };
+		5C49E7202583FDBE00B8505E /* SmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallButton.swift; sourceTree = "<group>"; };
+		5C49E72525843FA400B8505E /* TimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePicker.swift; sourceTree = "<group>"; };
+		5C49E72825843FF400B8505E /* TimePicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimePicker.xib; sourceTree = "<group>"; };
 		5C4A6225257C0DEE00BD485F /* Bookist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C4A6228257C0DEE00BD485F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5C4A622A257C0DEE00BD485F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,8 +81,9 @@
 		5C7FC19E2582A52600E98F07 /* BookingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewModel.swift; sourceTree = "<group>"; };
 		5C7FC1A12582A67400E98F07 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		5C7FC1A42582BC2400E98F07 /* Padded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Padded.swift; sourceTree = "<group>"; };
-		5C7FC1A72582C8FC00E98F07 /* BookingCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingCollectionViewLayout.swift; sourceTree = "<group>"; };
 		5C7FC1AA2582D7BF00E98F07 /* BookingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewCell.swift; sourceTree = "<group>"; };
+		5C7FC1AD2583977D00E98F07 /* BookingJourneyMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingJourneyMock.swift; sourceTree = "<group>"; };
+		5C7FC1B02583980200E98F07 /* BookingJourney.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingJourney.swift; sourceTree = "<group>"; };
 		5C86139925801A1D008124DB /* BookingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingView.swift; sourceTree = "<group>"; };
 		5C86139D25802C72008124DB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,6 +104,7 @@
 			children = (
 				5C29FF22257FF4D90017C113 /* MockDataSource.swift */,
 				5C29FF2A257FF58E0017C113 /* BookingMockData.swift */,
+				5C7FC1AD2583977D00E98F07 /* BookingJourneyMock.swift */,
 			);
 			path = "Mock Data";
 			sourceTree = "<group>";
@@ -109,10 +132,22 @@
 			isa = PBXGroup;
 			children = (
 				5C86139925801A1D008124DB /* BookingView.swift */,
-				5C7FC1A72582C8FC00E98F07 /* BookingCollectionViewLayout.swift */,
 				5C7FC1AA2582D7BF00E98F07 /* BookingViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		5C49E7092583D18300B8505E /* Booking Step Views */ = {
+			isa = PBXGroup;
+			children = (
+				5C49E70E2583D5F200B8505E /* BookingStepView.swift */,
+				5C49E7112583D75C00B8505E /* LocationStep.swift */,
+				5C49E7142583D88900B8505E /* DateTimeStep.swift */,
+				5C49E7172583D8AF00B8505E /* RoomChoiceStep.swift */,
+				5C49E71A2583D8BE00B8505E /* ConfirmationStep.swift */,
+				5C49E71D2583D8D000B8505E /* GroupShareStep.swift */,
+			);
+			path = "Booking Step Views";
 			sourceTree = "<group>";
 		};
 		5C4A621C257C0DEE00BD485F = {
@@ -139,6 +174,7 @@
 				5C4A6260257C1C8700BD485F /* Shared UI */,
 				5C29FF1E257FF49B0017C113 /* Mock Data */,
 				5C4A6253257C112C00BD485F /* Models */,
+				5C49E7092583D18300B8505E /* Booking Step Views */,
 				5C29FF33258016630017C113 /* Booking */,
 				5C4A6243257C0FEA00BD485F /* Home */,
 				5C4A6228257C0DEE00BD485F /* AppDelegate.swift */,
@@ -177,6 +213,8 @@
 			isa = PBXGroup;
 			children = (
 				5C4A6254257C114300BD485F /* BookingModel.swift */,
+				5C7FC1B02583980200E98F07 /* BookingJourney.swift */,
+				5C49E70B2583D4D400B8505E /* BookingStep.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -186,7 +224,10 @@
 			children = (
 				5C4A6262257C1DA900BD485F /* Title.swift */,
 				5C7FC1A12582A67400E98F07 /* Button.swift */,
+				5C49E7202583FDBE00B8505E /* SmallButton.swift */,
 				5C7FC1A42582BC2400E98F07 /* Padded.swift */,
+				5C49E72525843FA400B8505E /* TimePicker.swift */,
+				5C49E72825843FF400B8505E /* TimePicker.xib */,
 			);
 			path = "Shared UI";
 			sourceTree = "<group>";
@@ -256,6 +297,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C49E72925843FF400B8505E /* TimePicker.xib in Resources */,
 				5C29FF1C257FD7610017C113 /* BookingCell.xib in Resources */,
 				5C4A6238257C0DF100BD485F /* LaunchScreen.storyboard in Resources */,
 				5C4A6235257C0DF100BD485F /* Assets.xcassets in Resources */,
@@ -270,25 +312,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C29FF23257FF4D90017C113 /* MockDataSource.swift in Sources */,
+				5C49E7212583FDBE00B8505E /* SmallButton.swift in Sources */,
+				5C49E70C2583D4D400B8505E /* BookingStep.swift in Sources */,
 				5C4A6245257C100B00BD485F /* HomeViewController.swift in Sources */,
 				5C7FC1AB2582D7BF00E98F07 /* BookingViewCell.swift in Sources */,
+				5C49E7182583D8AF00B8505E /* RoomChoiceStep.swift in Sources */,
 				5C4A624D257C104A00BD485F /* HomeView.swift in Sources */,
+				5C49E71B2583D8BE00B8505E /* ConfirmationStep.swift in Sources */,
+				5C7FC1B12583980200E98F07 /* BookingJourney.swift in Sources */,
+				5C49E72625843FA400B8505E /* TimePicker.swift in Sources */,
 				5C29FF30258006DD0017C113 /* Extensions+Date.swift in Sources */,
+				5C49E7122583D75C00B8505E /* LocationStep.swift in Sources */,
 				5C4A6249257C101C00BD485F /* HomeViewModel.swift in Sources */,
 				5C4A6263257C1DA900BD485F /* Title.swift in Sources */,
 				5C29FF2B257FF58E0017C113 /* BookingMockData.swift in Sources */,
 				5C4A6258257C152800BD485F /* NewBookingSection.swift in Sources */,
 				5C29FF1B257FD7610017C113 /* BookingCell.swift in Sources */,
 				5C7FC19F2582A52600E98F07 /* BookingViewModel.swift in Sources */,
+				5C49E71E2583D8D000B8505E /* GroupShareStep.swift in Sources */,
+				5C49E7152583D88900B8505E /* DateTimeStep.swift in Sources */,
 				5C4A6229257C0DEE00BD485F /* AppDelegate.swift in Sources */,
 				5C7FC1A52582BC2400E98F07 /* Padded.swift in Sources */,
-				5C7FC1A82582C8FC00E98F07 /* BookingCollectionViewLayout.swift in Sources */,
 				5C4A622B257C0DEE00BD485F /* SceneDelegate.swift in Sources */,
 				5C4A6251257C108100BD485F /* Extensions+UIView.swift in Sources */,
 				5C4A6233257C0DEE00BD485F /* Bookist.xcdatamodeld in Sources */,
 				5C4A6255257C114300BD485F /* BookingModel.swift in Sources */,
 				5C7FC1A22582A67400E98F07 /* Button.swift in Sources */,
+				5C49E70F2583D5F200B8505E /* BookingStepView.swift in Sources */,
 				5C29FF352580175B0017C113 /* BookingViewController.swift in Sources */,
+				5C7FC1AE2583977D00E98F07 /* BookingJourneyMock.swift in Sources */,
 				5C4A625B257C160700BD485F /* BookingButton.swift in Sources */,
 				5C86139A25801A1D008124DB /* BookingView.swift in Sources */,
 				5C86139E25802C72008124DB /* Constants.swift in Sources */,

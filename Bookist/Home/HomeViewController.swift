@@ -14,10 +14,9 @@ class HomeViewController: UIViewController {
         viewModel.fetchBookingData()
     }
     
-    private func presentBookingFlow(for configuration: BookingView.Configuration) {
-        let bookingVC = BookingViewController(delegate: self)
+    private func presentBookingFlow(for bookingType: BookingType) {
+        let bookingVC = BookingViewController(bookingType: bookingType, delegate: self)
         bookingVC.modalPresentationStyle = .formSheet
-        bookingVC.component.render(with: configuration)
         present(bookingVC, animated: true, completion: nil)
     }
 }

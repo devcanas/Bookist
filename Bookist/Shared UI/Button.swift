@@ -14,24 +14,18 @@ class Button: UIButton, Component {
     func render(with configuration: Configuration) {
         switch configuration {
         case let .text(text):
-            buttonLabel.text = text
-            buttonLabel.isHidden = false
+            configure(with: text)
         case let .image(image):
-            buttonImageView.image = image
-            buttonImageView.isHidden = false
-        case .bordered(_):
-            break
-        case .inactive(_):
-            break
+            configure(with: image)
+        case let .bordered(bordered):
+            configureBordered(bordered)
+        case let .inactive(inactive):
+            configureInactive(inactive)
         case .bold: break
         case .shadowed:
-            setupShadow()
+            configureShadowed()
         }
         setupStackViewPadding()
-    }
-    
-    func render(with configurations: [Configuration]) {
-        configurations.forEach { render(with: $0) }
     }
     
     private let stackView: UIStackView = create {
@@ -39,7 +33,6 @@ class Button: UIButton, Component {
         $0.spacing = 5
         $0.alignment = .center
         $0.isLayoutMarginsRelativeArrangement = true
-        $0.heightAnchor.constraint(equalToConstant: 110).isActive = true
         $0.isUserInteractionEnabled = false
     }
     
@@ -57,6 +50,8 @@ class Button: UIButton, Component {
         $0.isHidden = true
     }
     
+    private var buttonImageViewHeightAnchor: NSLayoutConstraint?
+    
     override var isHighlighted: Bool {
         didSet {
             backgroundColor = isHighlighted ? .systemGray4 : .white
@@ -72,7 +67,35 @@ class Button: UIButton, Component {
         setup()
     }
     
-    private func setupShadow() {
+    private func configure(with text: String) {
+        buttonLabel.text = text
+        buttonLabel.isHidden = false
+        if !buttonImageView.isHidden {
+            buttonImageViewHeightAnchor?.isActive = true
+        }
+    }
+    
+    private func configure(with image: UIImage) {
+        buttonImageView.image = image
+        buttonImageView.isHidden = false
+        if !buttonLabel.isHidden {
+            buttonImageViewHeightAnchor?.isActive = true
+        }
+    }
+    
+    private func configureBordered(_ bordered: Bool) {
+        backgroundColor = bordered ? Constants.Color.theme : .white
+        buttonLabel.textColor = bordered ? .white : Constants.Color.theme
+        layer.borderWidth = bordered ? 2 : 0
+        layer.borderColor = bordered ? UIColor.white.cgColor : UIColor.clear.cgColor
+    }
+    
+    private func configureInactive(_ inactive: Bool) {
+        isUserInteractionEnabled = !inactive
+        backgroundColor = inactive ? UIColor.white.withAlphaComponent(0.6) : .white
+    }
+    
+    private func configureShadowed() {
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.2
         layer.shadowRadius = 10
@@ -95,6 +118,7 @@ class Button: UIButton, Component {
         stackView.addArrangedSubview(buttonImageView)
         stackView.addArrangedSubview(buttonLabel)
         buttonImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5).isActive = true
+        buttonImageViewHeightAnchor = buttonImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5)
     }
     
     // hack. Get rid of this

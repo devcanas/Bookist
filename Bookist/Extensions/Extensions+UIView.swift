@@ -7,7 +7,9 @@ protocol Component {
 }
 
 extension Component {
-    func render(with configurations: [Configuration]) { }
+    func render(with configurations: [Configuration]) {
+        configurations.forEach { render(with: $0) }
+    }
 }
 
 func createPadded<T: UIView>(_ completion: @escaping (T) -> Void) -> Padded<T> {
@@ -24,7 +26,16 @@ func create<T: UIView>(_ completion: @escaping (T) -> Void) -> T {
     return view
 }
 
+
+
 extension UIView {
+    
+    class func loadFromNib<T: UIView>() -> T {
+        let xib = Bundle.main.loadNibNamed(String(describing: T.self), owner: nil, options: nil)
+        let view = xib![0] as! T
+        return view
+    }
+    
     func pinTo(_ view: UIView) {
         NSLayoutConstraint.activate([
             self.leadingAnchor.constraint(equalTo: view.leadingAnchor),

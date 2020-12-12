@@ -19,8 +19,7 @@ class HomeViewModel: HomeViewModelProtocol {
     }
     
     func fetchBookingData() {
-        let data = dataSource.fetchBookingData()
-        items = data
+        items = dataSource.fetchBookingData()
         delegate?.didFetchBookingData()
     }
 }

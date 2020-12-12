@@ -9,8 +9,8 @@ class Title: UIView, Component {
     
     private let imageView: UIImageView = create {
         $0.contentMode = .scaleAspectFit
+        $0.tintColor = .white
         $0.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        $0.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
     private let titleLabel: UILabel = create {

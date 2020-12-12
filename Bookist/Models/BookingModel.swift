@@ -6,38 +6,59 @@ enum BookingType: String {
 }
 
 struct BookingDisplayableDateInfo {
-    let day: String
-    let startTime: String
-    let endTime: String
+    let day: String?
+    let startTime: String?
+    let endTime: String?
 }
 
 struct ShuttleBooking {
-    let toTime: Date
-    let fromTime: Date
-    let from: Campus
-    let to: Campus
+    let toTime: Date?
+    let fromTime: Date?
+    var from: Campus?
+    let to: Campus?
+    var isRoundtrip: Bool = false
+    
+    mutating func setAsRoundtrip() {
+        isRoundtrip = true
+        from = to == .alameda ? .taguspark : .alameda
+    }
+    
+    init(toTime: Date? = nil, fromTime: Date? = nil, from: Campus? = nil, to: Campus? = nil) {
+        self.toTime = toTime
+        self.fromTime = fromTime
+        self.from = from
+        self.to = to
+    }
 }
 
-struct BookingModel {
-    let startDate: Date
-    let endDate: Date
-    let room: Room
-    let bookingType: BookingType
-    let shuttleBooking: ShuttleBooking?
+class BookingModel {
+    var startDate: Date?
+    var endDate: Date?
+    var room: Room?
+    var bookingType: BookingType
+    var campus: Campus?
+    var shuttleBooking: ShuttleBooking?
     
-    var dateInfo: BookingDisplayableDateInfo {
+    var dateInfo: BookingDisplayableDateInfo? {
         BookingDisplayableDateInfo(
-            day: startDate.dayLabelText,
-            startTime: startDate.hourLabelText,
-            endTime: endDate.hourLabelText
+            day: startDate?.dayLabelText,
+            startTime: startDate?.hourLabelText,
+            endTime: endDate?.hourLabelText
         )
     }
     
-    init(startDate: Date, endDate: Date, room: Room, bookingType: BookingType, shuttleBooking: ShuttleBooking? = nil) {
+    init(startDate: Date? = nil,
+         endDate: Date? = nil,
+         room: Room? = nil,
+         bookingType: BookingType = .individual,
+         campus: Campus? = nil,
+         shuttleBooking: ShuttleBooking? = nil
+    ) {
         self.startDate = startDate
         self.endDate = endDate
         self.room = room
         self.bookingType = bookingType
+        self.campus = campus
         self.shuttleBooking = shuttleBooking
     }
 }

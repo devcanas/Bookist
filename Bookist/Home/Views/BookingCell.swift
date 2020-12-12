@@ -34,12 +34,13 @@ class BookingCell: UITableViewCell, Component {
     }
     
     private func setupLabels(with booking: BookingModel) {
-        roomNameLabel.text = booking.room.name
-        campusNameLabel.text = booking.room.campus.rawValue
+        guard let room = booking.room, let dateInfo = booking.dateInfo else { return }
+        roomNameLabel.text = room.name
+        campusNameLabel.text = room.campus.rawValue
         
-        dayLabel.text = booking.dateInfo.day
-        startTimeLabel.text = booking.dateInfo.startTime
-        endTimeLabel.text = booking.dateInfo.endTime
+        dayLabel.text = dateInfo.day
+        startTimeLabel.text = dateInfo.startTime
+        endTimeLabel.text = dateInfo.endTime
         
         shuttleStackView.isHidden = booking.shuttleBooking == nil
     }

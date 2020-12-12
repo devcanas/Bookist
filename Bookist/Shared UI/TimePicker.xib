@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="84h-Rj-OwS" customClass="TimePicker" customModule="Bookist" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="110"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GGY-fR-lJy">
+                    <rect key="frame" x="0.0" y="0.0" width="5" height="110"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="5" id="ra9-Lf-QEt"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="2"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="BTN-dJ-QpS">
+                    <rect key="frame" x="25" y="0.0" width="175" height="110"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="iCe-pD-P9D" userLabel="Start Stack View">
+                            <rect key="frame" x="0.0" y="0.0" width="175" height="45"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="255" verticalHuggingPriority="251" horizontalCompressionResistancePriority="400" text="mdkfnkdsfnsaf" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aDZ-8P-dWm" userLabel="Start">
+                                    <rect key="frame" x="0.0" y="12" width="44" height="21.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <datePicker contentMode="scaleAspectFit" horizontalHuggingPriority="300" horizontalCompressionResistancePriority="760" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="36s-jb-ylf">
+                                    <rect key="frame" x="59" y="0.0" width="116" height="45"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <locale key="locale" localeIdentifier="en_GB"/>
+                                    <connections>
+                                        <action selector="handleTimeChanged:" destination="84h-Rj-OwS" eventType="editingDidEnd" id="zR2-x8-Ctk"/>
+                                    </connections>
+                                </datePicker>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="tFd-Zc-wO6" userLabel="End Stack View">
+                            <rect key="frame" x="0.0" y="65" width="175" height="45"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="255" verticalHuggingPriority="251" horizontalCompressionResistancePriority="400" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="02Q-6H-e3C" userLabel="End">
+                                    <rect key="frame" x="0.0" y="0.0" width="44" height="45"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <datePicker contentMode="scaleToFill" horizontalHuggingPriority="300" horizontalCompressionResistancePriority="760" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="30" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="03f-hh-kke">
+                                    <rect key="frame" x="59" y="0.0" width="116" height="45"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <locale key="locale" localeIdentifier="en_GB"/>
+                                    <connections>
+                                        <action selector="handleTimeChanged:" destination="84h-Rj-OwS" eventType="editingDidEnd" id="pgh-eO-PLS"/>
+                                    </connections>
+                                </datePicker>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="03f-hh-kke" firstAttribute="width" secondItem="36s-jb-ylf" secondAttribute="width" id="Zdj-SU-SdB"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="GGY-fR-lJy" firstAttribute="top" secondItem="84h-Rj-OwS" secondAttribute="top" id="jZh-BM-gqg"/>
+                <constraint firstAttribute="bottom" secondItem="GGY-fR-lJy" secondAttribute="bottom" id="ljq-Ta-o6f"/>
+            </constraints>
+            <connections>
+                <outlet property="endLabel" destination="02Q-6H-e3C" id="LEj-vS-PPG"/>
+                <outlet property="endStackView" destination="tFd-Zc-wO6" id="8FM-8O-E5V"/>
+                <outlet property="endTime" destination="03f-hh-kke" id="Kje-NW-Xh6"/>
+                <outlet property="startLabel" destination="aDZ-8P-dWm" id="64h-Lj-pYw"/>
+                <outlet property="startTime" destination="36s-jb-ylf" id="bof-JK-HUm"/>
+            </connections>
+            <point key="canvasLocation" x="-171.01449275362319" y="-313.39285714285711"/>
+        </stackView>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
