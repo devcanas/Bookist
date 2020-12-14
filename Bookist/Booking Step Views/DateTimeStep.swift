@@ -3,15 +3,24 @@ import UIKit
 class DateTimeStep: BookingStepView {
     override var step: BookingStep { .dateTime }
     
-    override var canMoveForward: Bool { false }
+    override var canMoveForward: Bool {
+        guard let startDate = model.startDate,
+              let endDate = model.endDate,
+              let diff = Calendar.current.dateComponents([.hour], from: startDate, to: endDate).hour
+        else {
+            return false
+        }
+        
+        return diff >= 1
+    }
     
-    private let bookingDateStack: UIStackView = create {
+    private let bookingDateStack: Padded<UIStackView> = createPadded {
         $0.axis = .vertical
         $0.spacing = 10
     }
     
     private let bookingDateTitle: Title = create {
-        $0.render(with: .withImage(Constants.Text.dateAndTime, Constants.Image.clock))
+        $0.render(with: .withImage(Constants.Text.dateAndTime, Constants.Image.calendar))
     }
     
     private let bookingDatePickerStack: Padded<UIStackView> = createPadded {
@@ -23,14 +32,13 @@ class DateTimeStep: BookingStepView {
     private let bookingDatePicker: UIDatePicker = create {
         $0.preferredDatePickerStyle = .compact
         $0.datePickerMode = .date
-        $0.setDate(Date(timeIntervalSinceNow: .zero), animated: false)
         $0.tintColor = Constants.Color.theme
         $0.backgroundColor = .white
     }
     
     private let bookingTimePicker: TimePicker = .loadFromNib()
     
-    private let shuttleDateStack: UIStackView = create {
+    private let shuttleDateStack: Padded<UIStackView> = createPadded {
         $0.axis = .vertical
         $0.spacing = 10
     }
@@ -71,42 +79,89 @@ class DateTimeStep: BookingStepView {
         setupBookingDate()
         setupShuttleDate()
         setupTimePickers()
-    }
-    
-    private func setupTimePickers() {
-        setupBookingTimePicker()
-        setupShuttleTimePicker()
+        setupActions()
     }
     
     private func setupBookingDate() {
         addArrangedSubview(bookingDateStack)
-        bookingDateStack.addArrangedSubview(bookingDateTitle)
-        bookingDateStack.addArrangedSubview(bookingDatePickerStack)
+        bookingDateStack.view.addArrangedSubview(bookingDateTitle)
+        bookingDateStack.view.addArrangedSubview(bookingDatePickerStack)
         bookingDatePickerStack.view.addArrangedSubview(bookingDatePicker)
         bookingDatePickerStack.view.addArrangedSubview(bookingTimePicker)
     }
     
     private func setupShuttleDate() {
         addArrangedSubview(shuttleDateStack)
-        shuttleDateStack.addArrangedSubview(shuttleDateTitle)
-        shuttleDateStack.addArrangedSubview(shuttleTimeStack)
+        shuttleDateStack.view.addArrangedSubview(shuttleDateTitle)
+        shuttleDateStack.view.addArrangedSubview(shuttleTimeStack)
         shuttleTimeStack.view.addArrangedSubview(shuttleTimePicker)
     }
     
+    private func setupTimePickers() {
+        setupBookingDatePicker()
+        setupBookingTimePicker()
+        setupShuttleTimePicker()
+    }
+    
+    private func setupActions() {
+        bookingDatePicker.addTarget(self, action: #selector(handleDateChanged(_:)), for: .editingDidEnd)
+    }
+    
+    @objc
+    private func handleDateChanged(_ sender: UIDatePicker) {
+        let now = Date(timeIntervalSinceNow: .zero)
+        let day = sender.date.get(.day, calendar: .current)
+        model.startDate = (model.startDate ?? now).replacingDay(with: day)
+        model.endDate = (model.endDate ?? now).replacingDay(with: day)
+        delegate?.didUpdateStep(with: model, in: step)
+    }
+    
+    private func setupBookingDatePicker() {
+        let now = Date(timeIntervalSinceNow: .zero)
+        bookingDatePicker.setDate(model.startDate ?? now, animated: false)
+    }
+    
     private func setupBookingTimePicker() {
+        let now = Date(timeIntervalSinceNow: .zero)
+        bookingTimePicker.delegate = self
         bookingTimePicker.render(with: [
             .labels("session start", "session end"),
-            .startTime(Date(timeIntervalSinceNow: .zero)),
-            .endTime(Date(timeIntervalSinceNow: .zero))
+            .startTime(model.startDate ?? now),
+            .endTime(model.endDate ?? now)
         ])
     }
     
     private func setupShuttleTimePicker() {
-        guard let campus = model.campus?.rawValue else { return }
+        let now = Date(timeIntervalSinceNow: .zero)
+        shuttleTimePicker.delegate = self
         shuttleTimePicker.render(with: [
-            .labels("to \(campus)", "round trip"),
-            .startTime(Date(timeIntervalSinceNow: .zero)),
-            .endTime(Date(timeIntervalSinceNow: .zero))
+            .labels("to \(model.shuttleBooking?.to?.rawValue ?? "")", "round trip"),
+            .startTime(model.shuttleBooking?.toTime ?? now),
+            .endTime(model.shuttleBooking?.fromTime ?? now)
         ])
+    }
+}
+
+extension DateTimeStep: TimePickerDelegate {
+    func didChangeStartTime(time: Date, in picker: TimePicker) {
+        if picker == bookingTimePicker {
+            model.startDate = time
+        } else {
+            model.shuttleBooking?.toTime = time
+        }
+        delegate?.didUpdateStep(with: model, in: step)
+    }
+    
+    func didChangeEndTime(time: Date, in picker: TimePicker) {
+        if picker == bookingTimePicker {
+            model.endDate = time
+        } else {
+            model.shuttleBooking?.fromTime = time
+        }
+        delegate?.didUpdateStep(with: model, in: step)
+    }
+    
+    func displayPickerError(message: String) {
+        // show toast maybe
     }
 }

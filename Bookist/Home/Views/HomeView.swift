@@ -1,6 +1,6 @@
 import UIKit
 
-typealias HomeViewDelegate = NewBookingSectionDelegate & UITableViewDelegate & UITableViewDataSource
+typealias HomeViewDelegate = NewBookingSectionDelegate & UITableViewDelegate
 
 class HomeView: UIView, Component {
 
@@ -22,6 +22,7 @@ class HomeView: UIView, Component {
         $0.separatorColor = .clear
         $0.showsVerticalScrollIndicator = false
         $0.alwaysBounceVertical = false
+        $0.allowsSelection = false
     }
     
     required init?(coder: NSCoder) {
@@ -50,7 +51,6 @@ class HomeView: UIView, Component {
     func setupDelegates(with viewController: HomeViewDelegate) {
         newBookingSection.delegate = viewController
         bookingsTableView.delegate = viewController
-        bookingsTableView.dataSource = viewController
     }
     
     private func setupSubviews() {

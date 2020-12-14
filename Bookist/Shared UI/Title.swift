@@ -13,7 +13,7 @@ class Title: UIView, Component {
         $0.widthAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
-    private let titleLabel: UILabel = create {
+    private(set) var titleLabel: UILabel = create {
         $0.textColor = .white
         $0.numberOfLines = 1
         $0.font = .boldSystemFont(ofSize: 25)

@@ -11,6 +11,8 @@ class BookingJourneyMetadata {
     let steps: BookingSteps
     let bookingType: BookingType
     
+    var rooms: [Room] = allRooms
+    
     init(steps: BookingSteps, bookingType: BookingType) {
         self.steps = steps
         self.bookingType = bookingType

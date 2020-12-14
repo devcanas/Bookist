@@ -19,4 +19,16 @@ extension Date {
         formatter.dateFormat = "h:mm a"
         return formatter.string(from: self)
     }
+    
+    func replacingDay(with day: Int) -> Date? {
+        return Calendar.current.date(bySetting: .day, value: day, of: self)
+    }
+
+    func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
+        return calendar.dateComponents(Set(components), from: self)
+    }
+    
+    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
+        return calendar.component(component, from: self)
+    }
 }

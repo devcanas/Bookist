@@ -1,12 +1,20 @@
 import UIKit
 
+protocol ButtonDelegate: class {
+    func didTapButton(_ sender: Button)
+}
+
 class Button: UIButton, Component {
+    
+    weak var delegate: ButtonDelegate?
 
     enum Configuration {
         case text(String)
         case image(UIImage)
         case bordered(Bool)
         case inactive(Bool)
+        case vertical(Bool)
+        case noBackground
         case bold
         case shadowed
     }
@@ -21,6 +29,11 @@ class Button: UIButton, Component {
             configureBordered(bordered)
         case let .inactive(inactive):
             configureInactive(inactive)
+        case let .vertical(vertical):
+            configureVertical(vertical)
+        case .noBackground:
+            layer.borderWidth = .zero
+            isUserInteractionEnabled = false
         case .bold: break
         case .shadowed:
             configureShadowed()
@@ -50,11 +63,13 @@ class Button: UIButton, Component {
         $0.isHidden = true
     }
     
+    private var buttonImageViewWidthAnchor: NSLayoutConstraint?
     private var buttonImageViewHeightAnchor: NSLayoutConstraint?
     
     override var isHighlighted: Bool {
         didSet {
-            backgroundColor = isHighlighted ? .systemGray4 : .white
+            let defaultColor = layer.borderWidth == 2 ? Constants.Color.theme : .white
+            backgroundColor = isHighlighted ? .systemGray4 : defaultColor
         }
     }
     
@@ -65,6 +80,11 @@ class Button: UIButton, Component {
     init() {
         super.init(frame: .zero)
         setup()
+    }
+    
+    @objc
+    private func handleTap() {
+        delegate?.didTapButton(self)
     }
     
     private func configure(with text: String) {
@@ -86,6 +106,7 @@ class Button: UIButton, Component {
     private func configureBordered(_ bordered: Bool) {
         backgroundColor = bordered ? Constants.Color.theme : .white
         buttonLabel.textColor = bordered ? .white : Constants.Color.theme
+        buttonImageView.tintColor = bordered ? .white : Constants.Color.theme
         layer.borderWidth = bordered ? 2 : 0
         layer.borderColor = bordered ? UIColor.white.cgColor : UIColor.clear.cgColor
     }
@@ -93,6 +114,11 @@ class Button: UIButton, Component {
     private func configureInactive(_ inactive: Bool) {
         isUserInteractionEnabled = !inactive
         backgroundColor = inactive ? UIColor.white.withAlphaComponent(0.6) : .white
+    }
+    
+    private func configureVertical(_ vertical: Bool) {
+        stackView.axis = vertical ? .vertical : .horizontal
+        buttonLabel.font = .boldSystemFont(ofSize: vertical ? 17 : 15)
     }
     
     private func configureShadowed() {
@@ -105,6 +131,7 @@ class Button: UIButton, Component {
     private func setup() {
         setupStyle()
         setupSubviews()
+        setupActions()
     }
     
     private func setupStyle() {
@@ -117,13 +144,25 @@ class Button: UIButton, Component {
         stackView.pinTo(self)
         stackView.addArrangedSubview(buttonImageView)
         stackView.addArrangedSubview(buttonLabel)
-        buttonImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5).isActive = true
+        buttonImageViewWidthAnchor = buttonImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5)
         buttonImageViewHeightAnchor = buttonImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5)
+        
+        buttonImageViewWidthAnchor?.isActive = true
+    }
+    
+    private func setupActions() {
+        self.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
     }
     
     // hack. Get rid of this
     private func setupStackViewPadding() {
-        let padding: CGFloat = buttonImageView.isHidden || buttonLabel.isHidden ? 0 : 20
-        stackView.layoutMargins = UIEdgeInsets(top: padding, left: 0, bottom: padding, right: 0)
+        if stackView.axis == .vertical {
+            let padding: CGFloat = buttonImageView.isHidden || buttonLabel.isHidden ? 0 : 20
+            buttonImageViewWidthAnchor?.isActive = true
+            stackView.layoutMargins = UIEdgeInsets(top: padding, left: 0, bottom: padding, right: 0)
+        } else {
+            buttonImageViewWidthAnchor?.isActive = false
+            stackView.layoutMargins = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        }
     }
 }

@@ -60,8 +60,8 @@ class BookingView: UIView, BookingViewProtocol {
         previousStepButtonWidthConstraint = previousStepButton.widthAnchor.constraint(equalToConstant: .zero)
         previousStepButtonWidthConstraint?.isActive = true
         
-        nextStepButton.addTarget(self, action: #selector(handleTap(_:)), for: .touchUpInside)
-        previousStepButton.addTarget(self, action: #selector(handleTap(_:)), for: .touchUpInside)
+        nextStepButton.delegate = self
+        previousStepButton.delegate = self
     }
     
     func setButtonInactive(_ isInactive: Bool) {
@@ -79,6 +79,7 @@ class BookingView: UIView, BookingViewProtocol {
         collectionView.isScrollEnabled = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = Constants.Color.theme
+        collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.register(BookingViewCell.self, forCellWithReuseIdentifier: BookingViewCell.identifier)
         
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -122,23 +123,14 @@ class BookingView: UIView, BookingViewProtocol {
     private func configureButtons(with metadata: BookingJourneyMetadata) {
         if metadata.currentStep.rawValue == 0 {
             hidePreviousStepButton()
-        } else if metadata.currentStep.rawValue == metadata.steps.count - 1 {
+        } else if metadata.currentStep.rawValue == metadata.steps.count - 2 {
             nextStepButton.render(with: .text(Constants.Text.confirm))
+        } else if metadata.currentStep.rawValue == metadata.steps.count - 1 {
+            nextStepButton.render(with: .text(Constants.Text.close))
+            hidePreviousStepButton()
         } else {
             nextStepButton.render(with: .text(Constants.Text.continueText))
             showPreviousStepButton()
-        }
-    }
-    
-    @objc
-    func handleTap(_ sender: Button) {
-        switch sender {
-        case nextStepButton:
-            delegate?.didTapNextStepButton()
-        case previousStepButton:
-            delegate?.didTapPreviousStepButton()
-        default:
-            break
         }
     }
     
@@ -162,5 +154,18 @@ class BookingView: UIView, BookingViewProtocol {
                 self.stackView.layoutIfNeeded()
             })
         })
+    }
+}
+
+extension BookingView: ButtonDelegate {
+    func didTapButton(_ sender: Button) {
+        switch sender {
+        case nextStepButton:
+            delegate?.didTapNextStepButton()
+        case previousStepButton:
+            delegate?.didTapPreviousStepButton()
+        default:
+            break
+        }
     }
 }

@@ -14,14 +14,17 @@ class BookingStepView: UIStackView, Component, BookingStepProtocol {
     var canMoveForward: Bool { false }
     
     weak var delegate: BookingStepViewDelegate?
-    internal var model: BookingModel
+    internal var journey: BookingJourney
+    internal var model: BookingModel {
+        return journey.bookingModel
+    }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override init(frame: CGRect) {
-        self.model = BookingModel()
+        self.journey = BookingJourney(metadata: BookingJourneyMetadata(steps: [], bookingType: .individual))
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         axis = .vertical
@@ -29,12 +32,12 @@ class BookingStepView: UIStackView, Component, BookingStepProtocol {
     }
     
     enum Configuration {
-        case model(BookingModel)
+        case journey(BookingJourney)
     }
     
     func render(with configuration: Configuration) {
-        if case let .model(model) = configuration {
-            self.model = model
+        if case let .journey(journey) = configuration {
+            self.journey = journey
         }
     }
 }

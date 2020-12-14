@@ -3,6 +3,7 @@ protocol HomeViewModelDelegate: class {
 }
 
 protocol HomeViewModelProtocol {
+    var delegate: HomeViewModelDelegate? { get set }
     var items: [BookingModel] { get }
     func fetchBookingData()
 }

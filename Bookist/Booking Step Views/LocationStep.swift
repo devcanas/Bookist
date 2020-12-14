@@ -8,7 +8,7 @@ class LocationStep: BookingStepView {
         return model.campus != nil
     }
 
-    private let campusStack: UIStackView = create {
+    private let campusStack: Padded<UIStackView> = createPadded {
         $0.axis = .vertical
         $0.spacing = 10
     }
@@ -30,7 +30,7 @@ class LocationStep: BookingStepView {
         $0.render(with: [.text(Constants.Text.taguspark), .bold, .bordered(true)])
     }
     
-    private let shuttleStack: UIStackView = create {
+    private let shuttleStack: Padded<UIStackView> = createPadded {
         $0.axis = .vertical
         $0.spacing = 10
     }
@@ -60,7 +60,7 @@ class LocationStep: BookingStepView {
         setup()
     }
     
-    override func render(with configuration: BookingStepView.Configuration) {
+    override func render(with configuration: Configuration) {
         super.render(with: configuration)
         configure(with: model.campus)
         configure(with: model.shuttleBooking)
@@ -81,46 +81,17 @@ class LocationStep: BookingStepView {
         guard let isRoundTrip = shuttleBooking?.isRoundtrip else { return }
         shuttleRoundTripCheck.isChecked = isRoundTrip
     }
-    
-    @objc
-    private func handleButtonTap(_ sender: Button) {
-        switch sender {
-        case alamedaButton:
-            model.campus = .alameda
-            break
-        case tagusparkButton:
-            model.campus = .taguspark
-            break
-        default:
-            break
-        }
         
-        if let shuttleBooking = model.shuttleBooking {
-            let isRoundtrip = shuttleBooking.isRoundtrip
-            let updatedShuttleBooking = ShuttleBooking(to: model.campus)
-            model.shuttleBooking = updatedShuttleBooking
-            if isRoundtrip {
-                model.shuttleBooking?.setAsRoundtrip()
-            }
-        }
-        
-        delegate?.didUpdateStep(with: model, in: step)
-    }
-    
     @objc
     private func handleShuttleButtonPress(_ sender: SmallButton) {
         switch sender {
         case shuttleRoundTripCheck:
-            guard let isRoundTrip = model.shuttleBooking?.isRoundtrip else { return }
-            if isRoundTrip {
-                model.shuttleBooking = ShuttleBooking(to: model.campus)
-            } else {
-                model.shuttleBooking?.setAsRoundtrip()
-            }
+            model.shuttleBooking?.isRoundtrip.toggle()
+
         case shuttleBookingRadioNo:
             guard model.shuttleBooking != nil else { return }
             model.shuttleBooking = nil
-            
+
         case shuttleBookingRadioYes:
             guard model.shuttleBooking == nil else { return }
             model.shuttleBooking = ShuttleBooking(to: model.campus)
@@ -139,16 +110,16 @@ class LocationStep: BookingStepView {
     
     private func setupCampusStack() {
         addArrangedSubview(campusStack)
-        campusStack.addArrangedSubview(campusTitle)
-        campusStack.addArrangedSubview(campusButtonsStack)
+        campusStack.view.addArrangedSubview(campusTitle)
+        campusStack.view.addArrangedSubview(campusButtonsStack)
         campusButtonsStack.addArrangedSubview(alamedaButton)
         campusButtonsStack.addArrangedSubview(tagusparkButton)
     }
     
     private func setupShuttleStack() {
         addArrangedSubview(shuttleStack)
-        shuttleStack.addArrangedSubview(shuttleTitle)
-        shuttleStack.addArrangedSubview(shuttleButtonsStack)
+        shuttleStack.view.addArrangedSubview(shuttleTitle)
+        shuttleStack.view.addArrangedSubview(shuttleButtonsStack)
         
         shuttleButtonsStack.view.addArrangedSubview(shuttleBookingRadioYes)
         shuttleButtonsStack.view.addArrangedSubview(shuttleBookingRadioNo)
@@ -164,11 +135,34 @@ class LocationStep: BookingStepView {
     }
     
     private func setupActions() {
-        alamedaButton.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
-        tagusparkButton.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
+        alamedaButton.delegate = self
+        tagusparkButton.delegate = self
         
         shuttleRoundTripCheck.addTarget(self, action: #selector(handleShuttleButtonPress(_:)), for: .touchUpInside)
         shuttleBookingRadioYes.addTarget(self, action: #selector(handleShuttleButtonPress(_:)), for: .touchUpInside)
         shuttleBookingRadioNo.addTarget(self, action: #selector(handleShuttleButtonPress(_:)), for: .touchUpInside)
+    }
+}
+
+extension LocationStep: ButtonDelegate {
+    func didTapButton(_ sender: Button) {
+        switch sender {
+        case alamedaButton:
+            model.campus = .alameda
+            break
+        case tagusparkButton:
+            model.campus = .taguspark
+            break
+        default:
+            break
+        }
+        
+        if let shuttleBooking = model.shuttleBooking {
+            let updatedShuttleBooking = ShuttleBooking(to: model.campus)
+            model.shuttleBooking = updatedShuttleBooking
+            model.shuttleBooking?.isRoundtrip = shuttleBooking.isRoundtrip
+        }
+        
+        delegate?.didUpdateStep(with: model, in: step)
     }
 }

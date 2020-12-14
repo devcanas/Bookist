@@ -1,8 +1,14 @@
 import UIKit
 
+protocol BookingCellDelegate: class {
+    func didTapCell(model: BookingModel)
+}
+
 class BookingCell: UITableViewCell, Component {
     
     static let identifier = "bookingCell"
+    
+    weak var delegate: BookingCellDelegate?
 
     @IBOutlet weak var shuttleStackView: UIStackView!
     
@@ -13,9 +19,27 @@ class BookingCell: UITableViewCell, Component {
     @IBOutlet weak var campusNameLabel: UILabel!
     @IBOutlet weak var sessionTypeImageView: UIImageView!
     @IBOutlet weak var bookingStatusImageView: UIImageView!
+    @IBOutlet weak var bookingStatusColor: UIView!
+    
+    private var booking: BookingModel?
+    
+    override var isSelected: Bool {
+        didSet {
+            backgroundColor = .clear
+            contentView.backgroundColor = .clear
+            contentView.layer.backgroundColor = UIColor.clear.cgColor
+            layer.backgroundColor = UIColor.clear.cgColor
+            selectedBackgroundView?.isHidden = true
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        booking = nil
     }
     
     enum Configuration {
@@ -29,8 +53,17 @@ class BookingCell: UITableViewCell, Component {
     }
     
     private func setup(with booking: BookingModel) {
+        self.booking = booking
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        addGestureRecognizer(tap)
         setupLabels(with: booking)
         setupImages(with: booking.bookingType)
+    }
+    
+    @objc
+    private func handleTap() {
+        guard let booking = booking else { return }
+        delegate?.didTapCell(model: booking)
     }
     
     private func setupLabels(with booking: BookingModel) {
@@ -50,6 +83,8 @@ class BookingCell: UITableViewCell, Component {
         let groupSessionImage = Constants.Image.group
         let sessionTypeImage = bookingType == .individual ? individualSessionImage : groupSessionImage
         sessionTypeImageView.image = sessionTypeImage
+        bookingStatusImageView.image = bookingType == .individual ? nil : Constants.Image.excl
+        bookingStatusColor.backgroundColor = bookingType == .individual ? .systemGreen : .systemOrange
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

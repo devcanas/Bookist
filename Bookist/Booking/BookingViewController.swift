@@ -1,7 +1,7 @@
 import UIKit
 
 protocol BookingViewControllerDelegate: class {
-    
+    func didBookRoom(with model: BookingModel, in vc: UIViewController)
 }
 
 class BookingViewController: UIViewController {
@@ -11,6 +11,12 @@ class BookingViewController: UIViewController {
     
     private let component: BookingView = create { _ in }
     private(set) var bookingType: BookingType
+    
+    private lazy var locationStep = LocationStep()
+    private lazy var dateTimeStep = DateTimeStep()
+    private lazy var roomChoiceStep = RoomChoiceStep()
+    private lazy var confirmationStep = ConfirmationStep()
+    private lazy var groupShareStep = GroupShareStep()
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -41,6 +47,21 @@ class BookingViewController: UIViewController {
         component.collectionView.delegate = self
         component.collectionView.dataSource = self
     }
+    
+    private func getStepView(for step: BookingStep) -> BookingStepView {
+        switch step {
+        case .location:
+            return locationStep
+        case .dateTime:
+            return dateTimeStep
+        case .roomChoice:
+            return roomChoiceStep
+        case .confirm:
+            return confirmationStep
+        case .groupShareStep:
+            return groupShareStep
+        }
+    }
 }
 
 extension BookingViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -50,9 +71,14 @@ extension BookingViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookingViewCell.identifier, for: indexPath) as! BookingViewCell
-        if let step = viewModel.journey?.metadata.steps[indexPath.row], let model = viewModel.journey?.bookingModel {
-            cell.render(with: .configuration(step, model))
+        let currentStep = viewModel.journey?.metadata.currentStep.rawValue ?? 0
+        let step = viewModel.journey?.metadata.steps[indexPath.row]
+        if let step = step, let journey = viewModel.journey {
+            cell.render(with: .configuration(getStepView(for: step), journey))
             cell.currentStepView.delegate = self
+        }
+        
+        if currentStep == indexPath.row {
             component.setButtonInactive(!cell.currentStepView.canMoveForward)
         }
         return cell
@@ -91,5 +117,9 @@ extension BookingViewController: BookingViewModelDelegate {
         let newIndexPath = IndexPath(row: journey.metadata.currentStep.rawValue, section: .zero)
         component.collectionView.scrollToItem(at: newIndexPath, at: .centeredHorizontally, animated: true)
         component.collectionView.reloadData()
+    }
+    
+    func closeBookingModal(with bookingModel: BookingModel) {
+        delegate?.didBookRoom(with: bookingModel, in: self)
     }
 }

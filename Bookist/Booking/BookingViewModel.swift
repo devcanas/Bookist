@@ -1,6 +1,7 @@
 protocol BookingViewModelDelegate: class {
     func didFetchBookingJourney()
     func didUpdateBookingJourney()
+    func closeBookingModal(with bookingModel: BookingModel)
 }
 
 protocol BookingViewModelProtocol {
@@ -30,7 +31,10 @@ class BookingViewModel: BookingViewModelProtocol {
     // Add some additional checks to make sure required data is filled
     func nextStep() {
         guard let metadata = journey?.metadata,
-              metadata.currentStep.rawValue + 1 < metadata.steps.count else { return }
+              metadata.currentStep.rawValue + 1 < metadata.steps.count else {
+            delegate?.closeBookingModal(with: journey!.bookingModel)
+            return
+        }
         metadata.currentStep = metadata.steps[metadata.currentStep.rawValue + 1]
         delegate?.didUpdateBookingJourney()
     }
@@ -45,7 +49,11 @@ class BookingViewModel: BookingViewModelProtocol {
     
     func update(with updatedModel: BookingModel) {
         guard let journey = journey else { return }
+        
+        journey.metadata.rooms = allRooms.filter { $0.campus == journey.bookingModel.campus }
+        journey.metadata.rooms =  journey.metadata.rooms.filter { journey.bookingModel.appliedFilters.allSatisfy($0.filters.contains) }
         journey.with(bookingModel: updatedModel)
+        
         delegate?.didUpdateBookingJourney()
     }
 }

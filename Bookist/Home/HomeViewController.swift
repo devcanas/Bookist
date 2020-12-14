@@ -2,11 +2,14 @@ import UIKit
 
 class HomeViewController: UIViewController {
         
-    private let viewModel: HomeViewModelProtocol = HomeViewModel()
+    private var viewModel: HomeViewModelProtocol = HomeViewModel()
     private let component: HomeView = create { _ in }
+    
+    private lazy var bookingsDataSource: BookingsDataSource = makeBookingsDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.delegate = self
         view.addSubview(component)
         component.pinTo(view)
         component.setupDelegates(with: self)
@@ -19,37 +22,38 @@ class HomeViewController: UIViewController {
         bookingVC.modalPresentationStyle = .formSheet
         present(bookingVC, animated: true, completion: nil)
     }
+    
+    private func presentRoomDetails(for model: BookingModel) {
+        let roomDetailsVC = BookingDetailsViewController(bookingModel: model)
+        roomDetailsVC.modalPresentationStyle = .formSheet
+        present(roomDetailsVC, animated: true, completion: nil)
+    }
+    
+    private func makeBookingsDataSource() -> BookingsDataSource {
+        return BookingsDataSource(tableView: component.bookingsTableView, cellProvider: {
+            (tableView, indexPath, filter) -> BookingCell? in
+            let cell = tableView.dequeueReusableCell(withIdentifier: BookingCell.identifier, for: indexPath) as! BookingCell
+            cell.render(with: .item(self.viewModel.items[indexPath.row]))
+            cell.delegate = self
+            return cell
+        })
+    }
+    
+    private func applyBookingsSnapshot(animated: Bool = true) {
+        var snapshot = BookingsSnapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(viewModel.items)
+        bookingsDataSource.apply(snapshot)
+    }
 }
 
 extension HomeViewController: HomeViewModelDelegate {
     func didFetchBookingData() {
-        component.bookingsTableView.reloadData()
+        applyBookingsSnapshot()
     }
 }
 
-extension HomeViewController: HomeViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.items.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: BookingCell.identifier, for: indexPath) as! BookingCell
-        cell.render(with: .item(viewModel.items[indexPath.section]))
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return create { $0.backgroundColor = .clear }
-    }
-    
+extension HomeViewController: HomeViewDelegate {    
     func didTapIndividualBookingButton() {
         presentBookingFlow(for: .individual)
     }
@@ -59,6 +63,17 @@ extension HomeViewController: HomeViewDelegate {
     }
 }
 
+extension HomeViewController: BookingCellDelegate {
+    func didTapCell(model: BookingModel) {
+        presentRoomDetails(for: model)
+    }
+}
+
 extension HomeViewController: BookingViewControllerDelegate {
-    
+    func didBookRoom(with model: BookingModel, in vc: UIViewController) {
+        vc.dismiss(animated: true, completion: {
+            bookingMockData.append(model)
+            self.viewModel.fetchBookingData()
+        })
+    }
 }

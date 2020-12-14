@@ -8,6 +8,7 @@ struct Constants {
         static let upNext = "Up Next"
         static let confirm = "Confirm"
         static let continueText = "Continue"
+        static let close = "Close"
         
         static let individualBooking = "Individual Booking"
         static let groupBooking = "Group Booking"
@@ -18,6 +19,10 @@ struct Constants {
         static let shuttle = "Shuttle"
         
         static let dateAndTime = "Date & Time"
+        static let availableRooms = "Available Rooms"
+        static let filters = "Filters"
+        
+        static let confirmBooking = "Booking Confirmed"
     }
     
     struct Color {
@@ -32,11 +37,18 @@ struct Constants {
         static let campus = UIImage(systemName: "building.columns.fill")!
         static let shuttle = UIImage(systemName: "bus.fill")!
         static let clock = UIImage(systemName: "clock")!
+        static let rooms = UIImage(systemName: "scroll")!
+        static let filters = UIImage(systemName: "line.horizontal.3.decrease.circle")!
+        static let confirm = UIImage(systemName: "checkmark.rectangle.portrait")!
+        static let calendar = UIImage(systemName: "calendar")!
+        static let confirmFilter = UIImage(systemName: "checkmark.circle.fill")!
+        static let excl = UIImage(systemName: "exclamationmark.triangle.fill")!
+        static let link = UIImage(systemName: "link")!
     }
     
     struct Booking {
         struct Individual {
-            static let steps: BookingSteps = [.location, .dateTime, .roomChoice, .confirm]
+            static let steps: BookingSteps = [.location, .dateTime, .roomChoice, .confirm, .groupShareStep]
         }
         
         struct Group {
